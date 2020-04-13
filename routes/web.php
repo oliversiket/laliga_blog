@@ -13,6 +13,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+$vueBootstrap = function () {
+    return view('vue-bootstrap');
+};
+
+Route::get('/', $vueBootstrap);
+
+Auth::routes();
+
+Route::prefix('admin')->group(function() {
+    $bootstrap = 'PageController@index';
+
+    Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
+    Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
+    Route::get('/home', $bootstrap)->name('admin.index');
 });
+
